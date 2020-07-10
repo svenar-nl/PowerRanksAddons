@@ -1,9 +1,10 @@
-package nl.svenar.PowerRanks.addon;
+package nl.svenar.PowerRanks.addons;
 
-import nl.svenar.PowerRanks.addons.PowerRanksAddon;
-import nl.svenar.PowerRanks.addons.PowerRanksPlayer;
+import java.util.ArrayList;
 
-public class Template extends PowerRanksAddon {
+import nl.svenar.PowerRanks.Events.ChatTabExecutor;
+
+public abstract class PowerRanksAddon {
 
 	// The author's name
 	// ex. return "Your Name";
@@ -23,7 +24,7 @@ public class Template extends PowerRanksAddon {
 		return "1.0";
 	}
 
-	// The addon's version
+	// The minimal requires PowerRanks version
 	// ex. return "1.0";
 	public String minimalPowerRanksVersion() {
 		return "1.0";
@@ -31,7 +32,6 @@ public class Template extends PowerRanksAddon {
 
 	// This function is called once on add-on load
 	public void setup() {
-
 	}
 
 	// Called when a player joins the server
@@ -40,6 +40,11 @@ public class Template extends PowerRanksAddon {
 
 	// Called when a player leaves the server
 	public void onPlayerLeave(PowerRanksPlayer prPlayer) {
+	}
+
+	// Player movement handler
+	// Executed when a player has moved
+	public void onPlayerMove(PowerRanksPlayer prPlayer) {
 	}
 
 	// Called when a player's rank changes
