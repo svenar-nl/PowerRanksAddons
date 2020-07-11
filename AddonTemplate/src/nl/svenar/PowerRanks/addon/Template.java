@@ -65,4 +65,9 @@ public abstract class PowerRanksAddon {
 	public boolean onPowerRanksCommand(PowerRanksPlayer prPlayer, boolean sendAsPlayer, String command, String[] arguments) {
 		return false;
 	}
+	
+	// Player world change handler
+	// Executed when a player has entered a different world
+	public void onPlayerWorldChange(PowerRanksPlayer prPlayer, World world, World world2) {
+	}
 }
