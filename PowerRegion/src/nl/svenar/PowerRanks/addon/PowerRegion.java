@@ -16,6 +16,7 @@ public class PowerRegion extends PowerRanksAddon {
 
 	private ArrayList<Region> regions;
 	protected HashMap<Player, Region> currentPlayerRegion = new HashMap<Player, Region>();
+	private String msg_prefix = "&0[&b%plugin_name%&0]&r ";
 
 	@Override
 	public String getAuthor() {
@@ -29,7 +30,7 @@ public class PowerRegion extends PowerRanksAddon {
 
 	@Override
 	public String getVersion() {
-		return "1.0";
+		return "1.1";
 	}
 
 	@Override
@@ -39,6 +40,8 @@ public class PowerRegion extends PowerRanksAddon {
 
 	@Override
 	public void setup() {
+		msg_prefix = msg_prefix.replace("%plugin_name%", getIdentifier());
+
 		setupConfigfile();
 		if (!getConfig().isSet("regions")) {
 			getConfig().set("regions", "");
@@ -63,7 +66,7 @@ public class PowerRegion extends PowerRanksAddon {
 			Region region = getRegion(player.getLocation());
 			if (!player.hasPermission("powerregion.enter." + region.name)) {
 				wallThrow(player);
-				player.sendMessage(ChatColor.RED + "You may not enter region " + region.name);
+				player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg_prefix) + ChatColor.RED + "You may not enter region: " + region.name);
 			} else {
 				if (currentPlayerRegion.get(player) != region) {
 					currentPlayerRegion.put(player, region);
@@ -99,18 +102,20 @@ public class PowerRegion extends PowerRanksAddon {
 
 							loadRegions();
 
-							player.sendMessage(ChatColor.GREEN + "A new region with name '" + region_name + "' created!");
-							player.sendMessage(ChatColor.GREEN + "Use the command '/pr regionsetpoint1 " + region_name.toLowerCase() + "' to set the first location point to your current location");
-							player.sendMessage(ChatColor.GREEN + "Use the command '/pr regionsetpoint2 " + region_name.toLowerCase() + "' to set the seocnd location point to your current location");
-							player.sendMessage(ChatColor.GREEN + "Player's with the permission 'powerregion.enter." + region_name.toLowerCase() + "' can enter this region");
+							player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg_prefix) + ChatColor.GREEN + "A new region with name '" + region_name + "' created!");
+							player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg_prefix) + ChatColor.GREEN + "Use the command '/pr regionsetpoint1 " + region_name.toLowerCase()
+									+ "' to set the first location point to your current location");
+							player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg_prefix) + ChatColor.GREEN + "Use the command '/pr regionsetpoint2 " + region_name.toLowerCase()
+									+ "' to set the second location point to your current location");
+							player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg_prefix) + ChatColor.GREEN + "Player's with the permission 'powerregion.enter." + region_name.toLowerCase() + "' can enter this region");
 						} else {
-							player.sendMessage(ChatColor.RED + "A region with name '" + region_name + "' already exists!");
+							player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg_prefix) + ChatColor.RED + "A region with name '" + region_name + "' already exists!");
 						}
 					} else {
-						player.sendMessage(ChatColor.RED + "Usage /pr createregion <region_name>");
+						player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg_prefix) + ChatColor.RED + "Usage /pr createregion <region_name>");
 					}
 				} else {
-					player.sendMessage(ChatColor.DARK_RED + "You don't have permission to perform this command!");
+					player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg_prefix) + ChatColor.DARK_RED + "You don't have permission to perform this command!");
 				}
 				return true;
 			} else if (command.equalsIgnoreCase("deleteregion")) {
@@ -122,15 +127,15 @@ public class PowerRegion extends PowerRanksAddon {
 
 							loadRegions();
 
-							player.sendMessage(ChatColor.GREEN + "Region '" + region_name + "' has been deleted!");
+							player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg_prefix) + ChatColor.GREEN + "Region '" + region_name + "' has been deleted!");
 						} else {
-							player.sendMessage(ChatColor.RED + "A region with name '" + region_name + "' not found!");
+							player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg_prefix) + ChatColor.RED + "A region with name '" + region_name + "' not found!");
 						}
 					} else {
-						player.sendMessage(ChatColor.RED + "Usage /pr deleteregion <region_name>");
+						player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg_prefix) + ChatColor.RED + "Usage /pr deleteregion <region_name>");
 					}
 				} else {
-					player.sendMessage(ChatColor.DARK_RED + "You don't have permission to perform this command!");
+					player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg_prefix) + ChatColor.DARK_RED + "You don't have permission to perform this command!");
 				}
 				return true;
 			} else if (command.equalsIgnoreCase("listregions")) {
@@ -139,15 +144,15 @@ public class PowerRegion extends PowerRanksAddon {
 						player.sendMessage(ChatColor.DARK_AQUA + "--------" + ChatColor.DARK_BLUE + PowerRanks.pdf.getName() + ChatColor.DARK_AQUA + "--------");
 						player.sendMessage(ChatColor.DARK_GREEN + "Regions:");
 						for (Region region : regions) {
-							player.sendMessage(ChatColor.DARK_GREEN + "- " + ChatColor.GREEN + region.name + ChatColor.DARK_GREEN + " (" + ChatColor.GREEN + region.x1 + ChatColor.DARK_GREEN + ", " + ChatColor.GREEN + region.z1 + ChatColor.DARK_GREEN + ") (" + ChatColor.GREEN
-									+ region.x2 + ChatColor.DARK_GREEN + ", " + ChatColor.GREEN + region.z2 + ChatColor.DARK_GREEN + ")");
+							player.sendMessage(ChatColor.DARK_GREEN + "- " + ChatColor.GREEN + region.name + ChatColor.DARK_GREEN + " (" + ChatColor.GREEN + region.x1 + ChatColor.DARK_GREEN + ", " + ChatColor.GREEN + region.z1
+									+ ChatColor.DARK_GREEN + ") (" + ChatColor.GREEN + region.x2 + ChatColor.DARK_GREEN + ", " + ChatColor.GREEN + region.z2 + ChatColor.DARK_GREEN + ")");
 						}
 						player.sendMessage(ChatColor.DARK_AQUA + "--------------------------");
 					} else {
-						player.sendMessage(ChatColor.RED + "Usage /pr listregions");
+						player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg_prefix) + ChatColor.RED + "Usage /pr listregions");
 					}
 				} else {
-					player.sendMessage(ChatColor.DARK_RED + "You don't have permission to perform this command!");
+					player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg_prefix) + ChatColor.DARK_RED + "You don't have permission to perform this command!");
 				}
 				return true;
 			} else if (command.equalsIgnoreCase("regionsetpoint1")) {
@@ -160,16 +165,17 @@ public class PowerRegion extends PowerRanksAddon {
 
 							loadRegions();
 
-							player.sendMessage(ChatColor.GREEN + "Set the first point on '" + region_name + "' to (" + player.getLocation().getBlockX() + ", " + player.getLocation().getBlockZ() + ")");
+							player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg_prefix) + ChatColor.GREEN + "Set the first point on '" + region_name + "' to (" + player.getLocation().getBlockX() + ", "
+									+ player.getLocation().getBlockZ() + ")");
 
 						} else {
-							player.sendMessage(ChatColor.RED + "A region with name '" + region_name + "' not found!");
+							player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg_prefix) + ChatColor.RED + "A region with name '" + region_name + "' not found!");
 						}
 					} else {
-						player.sendMessage(ChatColor.RED + "Usage /pr regionsetpoint1 <region_name>");
+						player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg_prefix) + ChatColor.RED + "Usage /pr regionsetpoint1 <region_name>");
 					}
 				} else {
-					player.sendMessage(ChatColor.DARK_RED + "You don't have permission to perform this command!");
+					player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg_prefix) + ChatColor.DARK_RED + "You don't have permission to perform this command!");
 				}
 				return true;
 			} else if (command.equalsIgnoreCase("regionsetpoint2")) {
@@ -182,16 +188,17 @@ public class PowerRegion extends PowerRanksAddon {
 
 							loadRegions();
 
-							player.sendMessage(ChatColor.GREEN + "Set the second point on '" + region_name + "' to (" + player.getLocation().getBlockX() + ", " + player.getLocation().getBlockZ() + ")");
+							player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg_prefix) + ChatColor.GREEN + "Set the second point on '" + region_name + "' to (" + player.getLocation().getBlockX() + ", "
+									+ player.getLocation().getBlockZ() + ")");
 
 						} else {
-							player.sendMessage(ChatColor.RED + "A region with name '" + region_name + "' not found!");
+							player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg_prefix) + ChatColor.RED + "A region with name '" + region_name + "' not found!");
 						}
 					} else {
-						player.sendMessage(ChatColor.RED + "Usage /pr regionsetpoint2 <region_name>");
+						player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg_prefix) + ChatColor.RED + "Usage /pr regionsetpoint2 <region_name>");
 					}
 				} else {
-					player.sendMessage(ChatColor.DARK_RED + "You don't have permission to perform this command!");
+					player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg_prefix) + ChatColor.DARK_RED + "You don't have permission to perform this command!");
 				}
 				return true;
 			} else if (command.equalsIgnoreCase("regionhelp")) {
@@ -206,10 +213,10 @@ public class PowerRegion extends PowerRanksAddon {
 						player.sendMessage(ChatColor.DARK_GREEN + "/pr regionsetpoint2 <region_name>" + ChatColor.GREEN + " - Set the second location of the region to your current location.");
 						player.sendMessage(ChatColor.DARK_AQUA + "--------------------------");
 					} else {
-						player.sendMessage(ChatColor.RED + "Usage /pr regionhelp");
+						player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg_prefix) + ChatColor.RED + "Usage /pr regionhelp");
 					}
 				} else {
-					player.sendMessage(ChatColor.DARK_RED + "You don't have permission to perform this command!");
+					player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg_prefix) + ChatColor.DARK_RED + "You don't have permission to perform this command!");
 				}
 				return true;
 			}
@@ -269,3 +276,4 @@ public class PowerRegion extends PowerRanksAddon {
 		}
 	}
 }
+
