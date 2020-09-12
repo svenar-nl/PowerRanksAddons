@@ -5,6 +5,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import nl.svenar.PowerRanks.PowerRanks;
+import nl.svenar.PowerRanks.Data.Users;
 import nl.svenar.PowerRanks.addons.PowerRanksAddon;
 import nl.svenar.PowerRanks.addons.PowerRanksPlayer;
 
@@ -24,12 +25,12 @@ public class PowerBroadcast extends PowerRanksAddon {
 
 	@Override
 	public String getVersion() {
-		return "1.0";
+		return "1.1";
 	}
 
 	@Override
 	public String minimalPowerRanksVersion() {
-		return "1.0";
+		return "1.6";
 	}
 
 	@Override
@@ -38,10 +39,10 @@ public class PowerBroadcast extends PowerRanksAddon {
 		setupConfigfile();
 		
 		if (!getConfig().isSet("broadcast.join"))
-			getConfig().set("broadcast.join", "&8[&2+&8] &7%player% has joined the server.");
+			getConfig().set("broadcast.join", "&8[&2+&8] %prefix% &7%player% %suffix% has joined the server.");
 		
 		if (!getConfig().isSet("broadcast.leave"))
-			getConfig().set("broadcast.leave", "&8[&4-&8] &7%player% has left the server.");
+			getConfig().set("broadcast.leave", "&8[&4-&8] %prefix% &7%player% %suffix% has left the server.");
 		
 		registerCommandAutocomplete("broadcast");
 		registerPermission("powerranks.cmd.addon.broadcast.admin");
@@ -53,6 +54,9 @@ public class PowerBroadcast extends PowerRanksAddon {
 		
 		String output_message = getConfig().getString("broadcast.join");
 		output_message = output_message.replace("%player%", player.getDisplayName());
+		output_message = output_message.replace("%rank%", prPlayer.getRank());
+		output_message = output_message.replace("%prefix%", new Users(prPlayer.getPowerRanks()).getPrefix(prPlayer.getRank()));
+		output_message = output_message.replace("%suffix%", new Users(prPlayer.getPowerRanks()).getSuffix(prPlayer.getRank()));
 		output_message = PowerRanks.chatColor(output_message, true);
 		Bukkit.broadcastMessage(output_message);
 	}
@@ -63,6 +67,9 @@ public class PowerBroadcast extends PowerRanksAddon {
 		
 		String output_message = getConfig().getString("broadcast.leave");
 		output_message = output_message.replace("%player%", player.getDisplayName());
+		output_message = output_message.replace("%rank%", prPlayer.getRank());
+		output_message = output_message.replace("%prefix%", new Users(prPlayer.getPowerRanks()).getPrefix(prPlayer.getRank()));
+		output_message = output_message.replace("%suffix%", new Users(prPlayer.getPowerRanks()).getSuffix(prPlayer.getRank()));
 		output_message = PowerRanks.chatColor(output_message, true);
 		Bukkit.broadcastMessage(output_message);
 	}
