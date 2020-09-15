@@ -1,10 +1,12 @@
+![alt text](https://proxy.spigotmc.org/c0f941cde717bdb8139f35f5025a0bcb56915a6b?url=https%3A%2F%2Fi.imgur.com%2FAZ9f73n.png "Logo")
+
 # PowerRanksAddons
 Demo addons for the PowerRanks plugin
 
 ## WARNING
 Add-ons can be dangerous, if you plan on using PowerRanks add-ons for your server please know what you are doing.
 
-PowerRanks support is not available for thith-party add-ons!
+PowerRanks support is not available for third-party add-ons!
 
 ## How to create add-ons for PowerRanks
 Launch your Java IDE and set PowerRanks.jar and Bukkit.jar/Spigot.jar in your buildpath.
